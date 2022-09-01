@@ -15,6 +15,24 @@ const startOnSelection = () => {
       const currentInput = document.activeElement as HTMLInputElement;
       if (currentInput && shouldChangeText(currentInput)) {
         const textSelected = selection.toString();
+        if (textSelected) {
+          const changeInputEl = document.createElement("div");
+          changeInputEl.innerHTML = "Hi all";
+          changeInputEl.style.position = "absolute";
+          changeInputEl.style.bottom = `${currentInput.offsetHeight + 120}px`;
+          /**
+           * For future container
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 2147483647;
+              position: absolute;
+              pointer-events: none;
+           */
+
+          currentInput.parentElement?.insertBefore(changeInputEl, currentInput);
+        }
         if (textSelected === "wow") currentInput.value = "bla";
       }
     }
