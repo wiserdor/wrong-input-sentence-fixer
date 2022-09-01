@@ -2,7 +2,7 @@ const App = () => {
   return (
     <div className="App container ">
       <div>
-        <p>Hi</p>
+        <p>Hi </p>
       </div>
     </div>
   );
