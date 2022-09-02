@@ -1,0 +1,9 @@
+language-fixer-container .fixer-item {
+  letter-spacing: 1px;
+  padding: 20px 20px;
+  cursor: pointer;
+}
+
+language-fixer-container .fixer-item:hover {
+  background-color: rgba(3, 102, 214, 0.1);
+}

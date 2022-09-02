@@ -9,8 +9,9 @@ module.exports = {
               require.resolve("react-dev-utils/webpackHotDevClient"),
             paths.appIndexJs,
           ].filter(Boolean),
-          content: "./src/chromeServices/DOMEvaluator.ts",
-          background: "./src/chromeServices/background.ts",
+          content: "./src/chrome/DOMEvaluator.ts",
+          background: "./src/chrome/background.ts",
+          injectFixer: "./src/chrome/scripts/injectFixer.ts",
         },
         output: {
           ...webpackConfig.output,
