@@ -1,8 +1,6 @@
 import { FIXER_TAG_NAME, INPUT_ELEMENTS_TAGS, INPUT_TYPES } from "../constants";
-import {
-  addFixerContent,
-  createFixerContainer,
-} from "../fixer/ui/Components/MainContainer/MainContainer";
+import MainContainer from "../fixer/ui/Components/MainContainer/MainContainer";
+import { createElementFromJSX } from "../fixer/ui/utils";
 
 const shouldChangeText = (el: HTMLInputElement): boolean =>
   el.attributes.getNamedItem("role")?.value === "textbox" ||
@@ -13,7 +11,8 @@ const shouldChangeText = (el: HTMLInputElement): boolean =>
   );
 
 document.addEventListener("selectionchange", () => {
-  const oldFixerContainer = document.getElementsByTagName(FIXER_TAG_NAME)?.[0];
+  const oldFixerContainer =
+    document.getElementsByClassName(FIXER_TAG_NAME)?.[0];
   const selection = document.getSelection();
   const selectedText = selection?.toString();
 
@@ -27,11 +26,13 @@ document.addEventListener("selectionchange", () => {
   const currentInput = document.activeElement as HTMLInputElement;
   if (currentInput && shouldChangeText(currentInput)) {
     if (selectedText) {
-      const fixerContainer = createFixerContainer();
+      const jsxElement = MainContainer({
+        selectedText,
+        currentInput,
+      });
+      const fixerContainer = createElementFromJSX(jsxElement!);
 
       currentInput.parentElement?.insertBefore(fixerContainer, currentInput);
-
-      addFixerContent(fixerContainer, currentInput, { selectedText });
     }
   }
 });
