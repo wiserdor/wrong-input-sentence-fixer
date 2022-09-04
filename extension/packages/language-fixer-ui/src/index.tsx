@@ -4,6 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const container = document.createElement("div");
+container.id = "language-fixer-extension-container";
+
+document.body.prepend(container);
+
 const root = ReactDOM.createRoot(
   document.getElementById("language-fixer-extension-container") as HTMLElement
 );

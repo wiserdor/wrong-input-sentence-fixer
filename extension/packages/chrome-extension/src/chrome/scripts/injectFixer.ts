@@ -9,27 +9,21 @@ const shouldChangeText = (el: HTMLInputElement): boolean =>
   );
 
 document.addEventListener("selectionchange", () => {
-  const oldFixerContainer = document.getElementById(FIXER_TAG_ID)?.[0];
   const selection = document.getSelection();
   const selectedText = selection?.toString();
-
-  if (oldFixerContainer) {
-    oldFixerContainer.remove();
-    if (!selectedText) {
-      return;
-    }
+  if (!selectedText) {
+    return;
   }
 
   const currentInput = document.activeElement as HTMLInputElement;
   if (currentInput && shouldChangeText(currentInput)) {
     if (selectedText) {
-      const fixerContainer = document.createElement("div");
-      fixerContainer.id = FIXER_TAG_ID;
-      const script = document.createElement("script");
-      script.innerHTML = ``;
-      fixerContainer.appendChild(script);
+      const fixerContainer = document.getElementById(FIXER_TAG_ID);
+      fixerContainer!.style.position = "absolute";
 
-      currentInput.parentElement?.insertBefore(fixerContainer, currentInput);
+      if (fixerContainer) {
+        currentInput.parentElement?.insertBefore(fixerContainer, currentInput);
+      }
     }
   }
 });

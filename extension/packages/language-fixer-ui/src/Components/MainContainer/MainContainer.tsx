@@ -1,11 +1,11 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, useEffect, FC } from "react";
 import styled from "styled-components";
 import LanguageItem from "../LanguageItem/LanguageItem";
 
 const LanguageFixerContainer = styled.div`
   position: absolute;
   background-color: white;
-  width: fit-content;
+  width: max-content;
   height: auto;
   display: grid;
   grid-template-columns: 1fr;
@@ -21,23 +21,33 @@ const LanguageFixerContainer = styled.div`
   border: rgba(3, 102, 214, 0.3) 1px solid;
 `;
 
-const MainContainer = () => {
-  const [isSelectedText, setIsSelectedText] = useState(true);
-  const selectedText = document.getSelection()!.toString();
+type MainContainerProps = {
+  selectedText: string;
+  currentInput: HTMLInputElement;
+  closeContainer: () => void;
+};
 
+const MainContainer: FC<MainContainerProps> = ({
+  selectedText,
+  currentInput,
+  closeContainer,
+}) => {
   const onClickHandler = (event: MouseEvent, translate: string) => {
-    const currentInput = document.activeElement as HTMLInputElement;
-    event.preventDefault();
-    console.error(translate);
     if (currentInput.tagName?.toLowerCase() === "input")
-      currentInput.value = translate;
-    else currentInput.innerHTML.replaceAll(selectedText, translate);
-    setIsSelectedText(false);
+      currentInput.value = currentInput.value.replaceAll(
+        selectedText,
+        translate
+      );
+    else
+      currentInput.innerHTML = currentInput.innerHTML.replaceAll(
+        selectedText,
+        translate
+      );
   };
 
-  return isSelectedText ? (
-    <LanguageFixerContainer className="language-fixer-container">
-      {["Hebrew"].map((lang) => (
+  return selectedText ? (
+    <LanguageFixerContainer id="language-fixer-inner-container">
+      {["עברית"].map((lang) => (
         <LanguageItem
           language={lang}
           selectedText={selectedText}

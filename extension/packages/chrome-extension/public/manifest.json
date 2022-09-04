@@ -10,7 +10,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["./static/js/content.js"]
+      "js": [
+        "./static/js/content.js",
+        "./static/js/mainContainer.js",
+        "./static/js/mainContainer.chunk.js"
+      ],
+      "css": ["./static/css/mainContainer.css"]
     }
   ],
   "background": {
