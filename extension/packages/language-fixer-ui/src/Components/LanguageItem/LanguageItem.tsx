@@ -1,11 +1,11 @@
 import { FC, MouseEvent } from "react";
 import styled from "styled-components";
-import LanguageFixer from "../../fixer/LanguageFixer";
 
 const LanguageItemBox = styled.div`
   letter-spacing: 1px;
   padding: 20px 20px;
   cursor: pointer;
+  border-bottom: rgba(3, 102, 214, 0.1) 1px solid;
 
   &:hover {
     background-color: rgba(3, 102, 214, 0.1);
@@ -14,19 +14,23 @@ const LanguageItemBox = styled.div`
 
 type LanguageItemProps = {
   selectedText: string;
-  language: string;
+  toLanguage: string;
+  fromLanguage: string;
+  translate: string;
+  probability: number;
   onClick: (event: MouseEvent, translate: string) => void;
 };
 
 const LanguageItem: FC<LanguageItemProps> = (props) => {
-  const { selectedText, language, onClick } = props;
-  const translated = new LanguageFixer().switchToHebrew(selectedText);
+  const { translate, fromLanguage, toLanguage, probability, onClick } = props;
 
   return (
-    <LanguageItemBox onClick={(e) => onClick(e, translated)}>
+    <LanguageItemBox onClick={(e) => onClick(e, translate)}>
       <span>
-        {translated}
-        <small>{language}</small>
+        {probability.toFixed(0)} | {translate} |
+        <small>
+          {fromLanguage} {">>"} {toLanguage}
+        </small>
       </span>
     </LanguageItemBox>
   );

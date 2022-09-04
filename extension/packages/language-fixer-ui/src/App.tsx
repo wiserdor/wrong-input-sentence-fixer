@@ -12,7 +12,7 @@ function App() {
   const shouldChangeText = (el: HTMLInputElement): boolean =>
     el.attributes.getNamedItem("role")?.value === "textbox" ||
     INPUT_ELEMENTS_TAGS.some((tag) =>
-      el.tagName?.toLowerCase() === "input"
+      el.tagName?.toLowerCase() === "input" && el.getAttribute("type")
         ? INPUT_TYPES.some((attr) => attr === el.getAttribute("type"))
         : tag === el.tagName?.toLowerCase()
     );

@@ -1,5 +1,7 @@
-import { useState, MouseEvent, useEffect, FC } from "react";
+import LanguageDetect from "languagedetect";
+import { FC, MouseEvent, useEffect, useState } from "react";
 import styled from "styled-components";
+import { translateToAvailableLanguages } from "../../fixer/LanguageFixer";
 import LanguageItem from "../LanguageItem/LanguageItem";
 
 const LanguageFixerContainer = styled.div`
@@ -27,29 +29,63 @@ type MainContainerProps = {
   closeContainer: () => void;
 };
 
+type ITranslation = Array<{
+  fromLanguage: string;
+  toLanguage: string;
+  translate: string;
+  probability: number;
+}>;
+
 const MainContainer: FC<MainContainerProps> = ({
   selectedText,
   currentInput,
-  closeContainer,
 }) => {
+  const [translations, setTranslations] = useState<ITranslation>([]);
+
+  useEffect(() => {
+    const languageDetect = new LanguageDetect();
+
+    const allTranslations = translateToAvailableLanguages(selectedText);
+    console.error(allTranslations);
+
+    const allTranslationsWithProbability = allTranslations
+      .map((translation) => {
+        if (!translation?.translate) return translation;
+        const detection = languageDetect.detect(translation.translate, 1)[0];
+        return { ...translation, probability: detection?.[1] * 100 || 0 };
+      })
+      .sort((t) => t.probability);
+
+    setTranslations(allTranslationsWithProbability as ITranslation);
+  }, [selectedText]);
+
   const onClickHandler = (event: MouseEvent, translate: string) => {
-    if (currentInput.tagName?.toLowerCase() === "input")
-      currentInput.value = currentInput.value.replaceAll(
-        selectedText,
-        translate
-      );
-    else
-      currentInput.innerHTML = currentInput.innerHTML.replaceAll(
-        selectedText,
-        translate
-      );
+    // index of the first selected character
+    const start = currentInput.selectionStart;
+    // index of the last selected character
+    const finish = currentInput.selectionEnd;
+    if (start != null && finish != null) {
+      if (currentInput.tagName?.toLowerCase() === "input") {
+        const inputText = currentInput.value;
+        currentInput.value = `${inputText.substring(
+          0,
+          start
+        )}${translate}${inputText.substring(finish, inputText.length)}`;
+      } else {
+        const inputText = currentInput.innerHTML;
+        currentInput.innerHTML = `${inputText.substring(
+          0,
+          start
+        )}${translate}${inputText.substring(finish, inputText.length)}`;
+      }
+    }
   };
 
   return selectedText ? (
     <LanguageFixerContainer id="language-fixer-inner-container">
-      {["עברית"].map((lang) => (
+      {translations?.map((languageProp) => (
         <LanguageItem
-          language={lang}
+          {...languageProp}
           selectedText={selectedText}
           onClick={onClickHandler}
         />
