@@ -18,9 +18,7 @@ document.addEventListener("selectionchange", () => {
   const currentInput = document.activeElement as HTMLInputElement;
   if (currentInput && shouldChangeText(currentInput)) {
     if (selectedText) {
-      const fixerContainer = document.getElementById(
-        FIXER_TAG_ID
-      ) as HTMLDivElement;
+      // TODO: integrate container into the popup and configs
     }
   }
 });
