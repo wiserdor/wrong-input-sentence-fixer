@@ -62,7 +62,10 @@ const MainContainer: FC<MainContainerProps> = ({
     // index of the last selected character
     const endOffset = currentInput.selectionEnd;
     if (startOffset != null && endOffset != null) {
-      if (currentInput.tagName?.toLowerCase() === "input") {
+      if (
+        currentInput.tagName?.toLowerCase() === "input" ||
+        currentInput.tagName?.toLowerCase() === "textarea"
+      ) {
         const inputText = currentInput.value;
         currentInput.value = `${inputText.substring(
           0,
