@@ -20,6 +20,6 @@
   "include": [
     "src",
     "../language-fixer-ui/src/Components",
-    "../language-fixer-ui/src/fixer"
+    "../language-fixer-ui/src/LanguageFixer"
   ]
 }
