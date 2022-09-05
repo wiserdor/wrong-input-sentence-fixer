@@ -8,26 +8,9 @@
   "scripts": {
     "build": "yarn build-components && yarn build-extension && node ./scripts/postbuild.js",
     "build-components": "cd ./packages/language-fixer-ui && yarn build",
-    "build-extension": "cd ./packages/chrome-extension && yarn build",
-    "watch": "npm-watch"
+    "build-extension": "cd ./packages/chrome-extension && yarn build"
   },
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "npm-watch": "^0.11.0"
-  },
-  "watch": {
-    "build": {
-      "ignore": [
-        "build",
-        "node_modules"
-      ],
-      "patterns": [
-        "packages/*/src"
-      ],
-      "extensions": "ts,tsx,js,jsx,html,css,scss,json",
-      "quiet": false
-    }
-  }
+  ]
 }

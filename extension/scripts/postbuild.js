@@ -6,11 +6,6 @@ console.log("Starting...");
 
 const COMPONENT_PATH = "./packages/chrome-extension/build/static";
 
-// if (fs.existsSync(COMPONENT_PATH)) {
-//   fs.rmSync(COMPONENT_PATH, { recursive: true, force: true });
-// }
-// fs.mkdirSync(COMPONENT_PATH);
-
 const jsFiles = fs
   .readdirSync("packages/language-fixer-ui/build/static/js")
   .filter((f) => f.startsWith("main") && f.endsWith(".js"))[0];
