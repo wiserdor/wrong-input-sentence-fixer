@@ -1,4 +1,6 @@
 import keyboardMapping from "./keyboardMapping.json";
+import BCPMapper from "./BCP47toLanguage.json";
+import { ILanguageItem } from "../types";
 
 let availableLanguages: string[] | null = null;
 
@@ -7,22 +9,25 @@ export const getAvailableLanguages = () => {
   return availableLanguages;
 };
 
+export const getLanguageFromBCP47 = (language: string): string =>
+  (BCPMapper as Record<string, string>)?.[language] || "";
+
 export const translateToAvailableLanguages = (text: string) => {
-  const res: Array<{
-    fromLanguage: string;
-    toLanguage: string;
-    translate: string;
-    probability: number;
-  }> = [];
+  const res: Array<ILanguageItem> = [];
   const languages = getAvailableLanguages();
-  languages?.forEach((fromLang) => {
+
+  languages?.forEach((fromLangCode) => {
     languages
-      .filter((l) => l !== fromLang)
-      .forEach((toLang) => {
+      .filter((l) => l !== fromLangCode)
+      .forEach((toLangCode) => {
+        const translate = translateTo(text, fromLangCode, toLangCode);
+
         res.push({
-          fromLanguage: fromLang,
-          toLanguage: toLang,
-          translate: translateTo(text, fromLang, toLang),
+          fromLanguage: getLanguageFromBCP47(fromLangCode),
+          toLanguage: getLanguageFromBCP47(toLangCode),
+          fromLanguageCode: fromLangCode,
+          toLanguageCode: toLangCode,
+          translate,
           probability: 0,
         });
       });
